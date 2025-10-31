@@ -10,13 +10,14 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 FROM base AS builder
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
 FROM base AS runner
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup -g 1001 nodejs && adduser -S nextjs -G nodejs -u 1001
 COPY package.json package-lock.json ./
 COPY --from=deps /app/node_modules ./node_modules

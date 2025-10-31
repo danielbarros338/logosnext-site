@@ -1,3 +1,4 @@
+"use client"
 
 import continuidadeBg from '@/public/imgs/conceito-de-homens-de-negocios-de-aperto-de-mao.webp'
 import dadosBg from '@/public/imgs/funcionario-que-trabalha-num-ambiente-de-comercializacao.webp'

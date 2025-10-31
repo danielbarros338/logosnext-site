@@ -1,3 +1,5 @@
+"use client";
+
 import Image, { type StaticImageData } from "next/image";
 import React from "react";
 
@@ -113,8 +115,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
         {features.length > 0 && (
           <ul className="mt-3 space-y-3 max-w-md">
-            {features.map((f, i) => (
-              <li key={i} className="flex items-start text-sm text-white/85">
+            {features.map((f) => (
+              <li key={f} className="flex items-start text-sm text-white/85">
                 <span className="mt-1 mr-3 inline-flex h-2 w-2 rounded-full bg-white/90" />
                 {f}
               </li>

@@ -1,3 +1,5 @@
+"use client"
+
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Button from '@mui/material/Button'
 import Image from 'next/image'

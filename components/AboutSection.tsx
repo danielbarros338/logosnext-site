@@ -1,3 +1,5 @@
+"use client"
+
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import GroupsIcon from '@mui/icons-material/Groups'
