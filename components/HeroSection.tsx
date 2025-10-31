@@ -36,7 +36,7 @@ const HeroSection = () => {
           </div>
           <div className="w-full lg:w-5/12 xl:w-2/5 flex justify-center lg:justify-end">
             <Image
-              src="/imgs/logo.png"
+              src="/imgs/logo-translucid.webp"
               alt="Identidade visual Logos Next"
               width={420}
               height={420}
