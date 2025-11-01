@@ -62,7 +62,7 @@ const ContactSection = () => {
                 >
                   <MailIcon fontSize="small" />
                 </div>
-                <Link href="mailto:contato@logosnext.com.br">
+                <Link href="mailto:comercial@logosnext.com.br">
                   <h4 className="font-medium">Email</h4>
                   <p className="text-muted-foreground">
                     comercial@logosnext.com.br
