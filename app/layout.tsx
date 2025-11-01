@@ -44,7 +44,7 @@ export const metadata: Metadata = {
       "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
     images: [
       {
-        url: "https://logosnext.com.br/og-logo-next.png",
+        url: "https://logosnext.com.br/imgs/og-logo-next.png",
         width: 1200,
         height: 630,
         alt: "Logos Next - Consultoria de TI",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     description:
       "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
     images: [
-      "https://logosnext.com.br/og-logo-next.png"
+      "https://logosnext.com.br/imgs/og-logo-next.png"
     ],
   },
 };
