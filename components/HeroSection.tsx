@@ -42,6 +42,7 @@ const HeroSection = () => {
               alt="Identidade visual Logos Next"
               width={420}
               height={420}
+              fetchPriority='high'
               priority
               sizes="(max-width: 1024px) 60vw, 420px"
               className="max-w-full h-auto drop-shadow-[0_20px_60px_rgba(52,245,197,0.25)]"

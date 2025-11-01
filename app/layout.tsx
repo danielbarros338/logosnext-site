@@ -1,43 +1,47 @@
+// app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: true,
+});
+
+// Poppins substitui o @import do Google Fonts no CSS
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["100","200","300","400","500","600","700","800","900"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
-  title: "Logos Next | Transformado sonhos em realidade",
+  title: "Logos Next | Transformando sonhos em realidade",
   description:
     "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
-  alternates: {
-    canonical: "https://logosnext.com.br",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  alternates: { canonical: "https://logosnext.com.br" },
+  robots: { index: true, follow: true },
   publisher: "Logos Next",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html
+      lang="pt-BR"
+      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
+    >
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

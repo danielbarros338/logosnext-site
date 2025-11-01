@@ -23,8 +23,9 @@ const Header = () => {
             alt="Logos Next logotipo"
             width={80}
             height={40}
-            priority
+            quality={90}
             sizes="80px"
+            loading="lazy"
           />
         </Link>
 
