@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <meta
           property="og:image"
-          content="https://logosnext.com.br/imgs/og-logo-next.webp"
+          content="https://logosnext.com.br/imgs/og-logo-next.png"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -102,7 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <meta
           name="twitter:image"
-          content="https://logosnext.com.br/imgs/og-logo-next.webp"
+          content="https://logosnext.com.br/imgs/og-logo-next.png"
         />
 
         <Script
