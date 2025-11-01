@@ -57,7 +57,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 420px"
             priority={false}
             loading="lazy"
-            quality={90}
           />
           <div
             className="absolute inset-0"
@@ -105,7 +104,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               className="w-5 h-5"
               loading="lazy"
               aria-hidden={true}
-              quality={90}
             />
           )}
         </div>
