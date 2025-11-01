@@ -71,6 +71,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
     >
       <head>
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:url" content="https://logosnext.com.br/" />
+        <meta
+          property="og:title"
+          content="Logos Next | Transformando sonhos em realidade"
+        />
+        <meta
+          property="og:description"
+          content="Consultoria de TI especializada em transformação digital, automação inteligente e desenvolvimento sob medida."
+        />
+        <meta
+          property="og:image"
+          content="https://logosnext.com.br/imgs/og-logo-next.webp"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Logos Next" />
+
+        {/* ✅ Meta Twitter (usado por X e fallback para WhatsApp em alguns casos) */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Logos Next | Transformando sonhos em realidade"
+        />
+        <meta
+          name="twitter:description"
+          content="Consultoria de TI especializada em automação inteligente e transformação digital."
+        />
+        <meta
+          name="twitter:image"
+          content="https://logosnext.com.br/imgs/og-logo-next.webp"
+        />
+
         <Script
           id="logosnext-schema"
           type="application/ld+json"
