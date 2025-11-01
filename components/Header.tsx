@@ -19,7 +19,7 @@ const Header = () => {
       <div className="container-custom flex justify-between items-center h-16">
         <Link href="/" className="text-xl font-bold transition-colors hover:text-primary">
           <Image
-            src="/imgs/logo.png"
+            src="/imgs/logo-translucid.webp"
             alt="Logos Next logotipo"
             width={80}
             height={40}
