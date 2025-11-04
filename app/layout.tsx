@@ -71,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
     >
       <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:url" content="https://logosnext.com.br/" />
@@ -103,6 +104,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta
           name="twitter:image"
           content="https://logosnext.com.br/imgs/og-logo-next.png"
+        />
+
+        <Script
+          id="basic-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              url: "https://seudominio.com",
+              logo: "https://seudominio.com/favicon.png",
+            }),
+          }}
         />
 
         <Script
