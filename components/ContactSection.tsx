@@ -2,7 +2,6 @@
 
 import type React from "react";
 
-import { WhatsApp } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
@@ -54,7 +53,8 @@ const ContactSection = () => {
               abertos a novas conexões e parcerias que gerem valor de verdade.
             </p>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 space-y-6">
+            {/* <div className="grid grid-cols-1 lg:grid-cols-3 space-y-6"> */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-6">
               <div className="flex items-start">
                 <div
                   className="mr-4 bg-primary/10 p-3 rounded-full"
@@ -70,7 +70,7 @@ const ContactSection = () => {
                 </Link>
               </div>
 
-              <div className="flex items-start">
+              {/* <div className="flex items-start">
                 <div
                   className="mr-4 bg-primary/10 p-3 rounded-full"
                   style={{ color: "var(--logos-next-green)" }}
@@ -81,7 +81,7 @@ const ContactSection = () => {
                   <h4 className="font-medium">Whatsapp</h4>
                   <p className="text-muted-foreground">(21) 98315-9765 - Daniel Barros</p>
                 </Link>
-              </div>
+              </div> */}
 
               <div className="flex items-start">
                 <div
