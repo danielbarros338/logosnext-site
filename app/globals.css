@@ -6,7 +6,7 @@ html {
 }
 
 :root {
-  --logos-next-blue: #1DCDFE;
+  --logos-next-blue: #0163e9;
   --logos-next-dark-green: #21D0B2;
   --logos-next-green: #34F5C5;
   --logos-next-dark: #2F455C;
@@ -194,9 +194,9 @@ body {
 .hero-gradient-overlay {
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 20% 20%, rgba(29, 205, 254, 0.45), transparent 60%),
-    radial-gradient(circle at 80% 40%, rgba(33, 208, 178, 0.4), transparent 55%),
-    linear-gradient(120deg, rgba(47, 69, 92, 0.85), rgba(52, 245, 197, 0.25), rgba(47, 69, 92, 0.85));
+  background: radial-gradient(circle at 20% 20%, var(--logos-next-blue), transparent 60%),
+    radial-gradient(circle at 80% 40%, var(--logos-next-dark), transparent 55%),
+    linear-gradient(120deg, var(--logos-next-green), var(--logos-next-green), var(--logos-next-dark));
   background-size: 200% 200%;
   animation: heroGradientShift 18s ease-in-out infinite;
   opacity: 0.7;
