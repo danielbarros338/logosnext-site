@@ -24,7 +24,7 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você implementaria a lógica para enviar o formulário
+
     console.log("Formulário enviado:", formData);
     alert("Mensagem enviada com sucesso!");
     setFormData({
