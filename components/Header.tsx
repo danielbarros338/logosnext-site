@@ -21,7 +21,7 @@ const Header = () => {
           aria-label="Página inicial"
         >
           <Image
-            src="/imgs/logowhite.png"
+            src="/imgs/logowhite.webp"
             alt="Logos Next logotipo"
             width={160} // dimensões intrínsecas do arquivo (podem ser maiores)
             height={80}
