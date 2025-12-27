@@ -32,22 +32,26 @@ pipeline {
 
 
         stage('Deploy to Production') {
-          steps {
-              sshagent(credentials: [SSH_CREDENTIALS]) {
-
-                  sh """
-                      ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} << 'EOF'
+            steps {
+                sshagent(credentials: [SSH_CREDENTIALS]) {
+                    sh '''
+                      ssh -o StrictHostKeyChecking=no root@logosnext.com.br <<'EOF'
                       set -e
-                      cd ${REMOTE_APP_DIR}
+
+                      cd /logosnext-site
+
+                      git fetch origin
+                      git reset --hard origin/main
 
                       docker compose down
                       docker compose build --no-cache
                       docker compose up -d --force-recreate
                       EOF
-                  """
-              }
-          }
+                    '''
+                  }
+                }
         }
+
 
     }
     
