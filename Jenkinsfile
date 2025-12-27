@@ -35,10 +35,11 @@ pipeline {
           steps {
               sshagent(credentials: [SSH_CREDENTIALS]) {
                   sh """
-                      ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} '
-                          cd /root/logosnext-site
-                          docker compose up -d --build --force-recreate
-                      '
+                     ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} '
+                      cd ${REMOTE_APP_DIR}
+                      docker compose down
+                      docker compose build --no-cache
+                      docker compose up -d --force-recreate
                   """
               }
           }
