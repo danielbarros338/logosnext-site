@@ -32,35 +32,19 @@ pipeline {
 
 
         stage('Deploy to Production') {
-            when {
-                branch 'main'
-            }
-            steps {
-                sshagent(credentials: [SSH_CREDENTIALS]) {
-                    // Cria o diretório remoto se não existir
-                    sh "ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} 'mkdir -p ${REMOTE_APP_DIR}'"
-                    
-                    // Copia os arquivos do projeto para o servidor
-                    // Exclui pastas pesadas ou desnecessárias, pois o build será feito no Docker remoto
-                    sh """
-                        rsync -avz --delete \
-                        --exclude 'node_modules' \
-                        --exclude '.git' \
-                        --exclude '.next' \
-                        --exclude '.env' \
-                        ./ ${PROD_USER}@${PROD_HOST}:${REMOTE_APP_DIR}
-                    """
-                    
-                    // Executa o deploy remoto usando Docker Compose
-                    sh """
-                        ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} '
-                            cd ${REMOTE_APP_DIR}
-                            docker compose down
-                            docker compose up -d --build
-                        '
-                    """
-                }
-            }
+          when {
+              branch 'main'
+          }
+          steps {
+              sshagent(credentials: [SSH_CREDENTIALS]) {
+                  sh """
+                      ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_HOST} '
+                          cd /root/logosnext-site
+                          docker compose up -d --build --force-recreate
+                      '
+                  """
+              }
+          }
         }
     }
     
