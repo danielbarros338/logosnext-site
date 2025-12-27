@@ -39,13 +39,13 @@ pipeline {
               set -e
               cd /root/logosnext-site
 
-              echo "Commit atual:"
+              echo "Commit antes:"
               git rev-parse --short HEAD
 
               git fetch origin
               git reset --hard origin/main
 
-              echo "Novo commit:"
+              echo "Commit depois:"
               git rev-parse --short HEAD
 
               docker compose down
@@ -56,6 +56,7 @@ pipeline {
           }
         }
       }
+
     }
     
     post {
