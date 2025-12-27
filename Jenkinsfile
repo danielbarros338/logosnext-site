@@ -31,28 +31,31 @@ pipeline {
       }
 
 
-        stage('Deploy to Production') {
-            steps {
-                sshagent(credentials: [SSH_CREDENTIALS]) {
-                    sh '''
-                      ssh -o StrictHostKeyChecking=no root@logosnext.com.br <<'EOF'
-                      set -e
+      stage('Deploy to Production') {
+        steps {
+          sshagent(credentials: ['root']) {
+            sh """
+              ssh -o StrictHostKeyChecking=no root@logosnext.com.br '
+              set -e
+              cd /root/logosnext-site
 
-                      cd /logosnext-site
+              echo "Commit atual:"
+              git rev-parse --short HEAD
 
-                      git fetch origin
-                      git reset --hard origin/main
+              git fetch origin
+              git reset --hard origin/main
 
-                      docker compose down
-                      docker compose build --no-cache
-                      docker compose up -d --force-recreate
-                      EOF
-                    '''
-                  }
-                }
+              echo "Novo commit:"
+              git rev-parse --short HEAD
+
+              docker compose down
+              docker compose build --no-cache
+              docker compose up -d --force-recreate
+              '
+            """
+          }
         }
-
-
+      }
     }
     
     post {
