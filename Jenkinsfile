@@ -32,9 +32,6 @@ pipeline {
 
 
         stage('Deploy to Production') {
-          when {
-              branch 'main'
-          }
           steps {
               sshagent(credentials: [SSH_CREDENTIALS]) {
                   sh """
