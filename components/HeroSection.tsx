@@ -15,7 +15,7 @@ const HeroSection = () => {
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-16">
           <div className="w-full lg:w-7/12 xl:w-3/5">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance">
-              Acelere sua Empresa com teste{" "}
+              Acelere sua Empresa com{" "}
               <span style={{ color: "var(--logos-next-green)" }}>
                 Automação Inteligente
               </span>
