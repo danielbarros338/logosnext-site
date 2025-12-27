@@ -7,22 +7,29 @@ pipeline {
         PROD_USER           = 'root'
         SSH_CREDENTIALS     = 'ssh-prod-server'
         REMOTE_APP_DIR      = '/logosnext-site'
+
+        HOME                = '/tmp'
+        NPM_CONFIG_CACHE    = '/tmp/.npm'
     }
 
     stages {
         stage('Install & Verify') {
-            agent {
-                docker { 
-                    image 'node:20-alpine' 
-                    reuseNode true
-                }
-            }
-            steps {
-                sh 'npm ci'
-                sh 'npm run lint'
-                sh 'npm run build'
-            }
-        }
+          agent {
+              docker {
+                  image 'node:20-alpine'
+                  reuseNode true
+              }
+          }
+          steps {
+              sh '''
+                  mkdir -p /tmp/.npm
+                  npm ci
+                  npm run lint
+                  npm run build
+              '''
+          }
+      }
+
 
         stage('Deploy to Production') {
             when {
