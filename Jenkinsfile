@@ -6,7 +6,7 @@ pipeline {
         PROD_HOST           = 'logosnext.com.br'
         PROD_USER           = 'root'
         SSH_CREDENTIALS     = 'ssh-prod-server'
-        REMOTE_APP_DIR      = '/logosnext-site'
+        REMOTE_APP_DIR      = '/root/logosnext-site'
 
         HOME                = '/tmp'
         NPM_CONFIG_CACHE    = '/tmp/.npm'
