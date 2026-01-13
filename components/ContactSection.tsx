@@ -2,6 +2,7 @@
 
 import type React from "react";
 
+import { WhatsApp } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
@@ -70,18 +71,18 @@ const ContactSection = () => {
                 </Link>
               </div>
 
-              {/* <div className="flex items-start">
+              <div className="flex items-start">
                 <div
                   className="mr-4 bg-primary/10 p-3 rounded-full"
                   style={{ color: "var(--logos-next-green)" }}
                 >
                   <WhatsApp fontSize="small" />
                 </div>
-                <Link href="https://wa.me/5521983159765" target="_blank" rel="noopener noreferrer">
+                <Link href="https://wa.me/5521975861809" target="_blank" rel="noopener noreferrer">
                   <h4 className="font-medium">Whatsapp</h4>
-                  <p className="text-muted-foreground">(21) 98315-9765 - Daniel Barros</p>
+                  <p className="text-muted-foreground">(21) 97586-1809 - Comercial</p>
                 </Link>
-              </div> */}
+              </div>
 
               <div className="flex items-start">
                 <div
