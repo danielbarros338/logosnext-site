@@ -2,9 +2,11 @@
 
 import type React from "react";
 
-import { WhatsApp } from "@mui/icons-material";
+import { Send, WhatsApp } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MailIcon from "@mui/icons-material/Mail";
+import MuiButton from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,6 +17,9 @@ const ContactSection = () => {
     subject: "",
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,23 +28,41 @@ const ContactSection = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setStatus("idle");
+    setErrorMsg("");
 
-    console.log("Formulário enviado:", formData);
-    alert("Mensagem enviada com sucesso!");
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Erro ao enviar mensagem.");
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(
+        err instanceof Error ? err.message : "Erro ao enviar mensagem."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <section id="contato" className="section-padding">
       <div className="container-custom">
-        <div className="grid grid-cols-1 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Informações de Contato */}
           <div>
             <h2
@@ -54,8 +77,7 @@ const ContactSection = () => {
               abertos a novas conexões e parcerias que gerem valor de verdade.
             </p>
 
-            {/* <div className="grid grid-cols-1 lg:grid-cols-3 space-y-6"> */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-6">
+            <div className="flex flex-col gap-6">
               <div className="flex items-start">
                 <div
                   className="mr-4 bg-primary/10 p-3 rounded-full"
@@ -98,7 +120,9 @@ const ContactSection = () => {
               </div>
             </div>
           </div>
-          {/* <div className="relative overflow-hidden rounded-2xl">
+
+          {/* Formulário de Contato */}
+          <div className="relative overflow-hidden rounded-2xl">
             <div
               className="absolute inset-0"
               style={{
@@ -181,25 +205,43 @@ const ContactSection = () => {
                       required
                       rows={5}
                       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    ></textarea>
+                    />
                   </div>
 
-                  <Button
+                  {status === "success" && (
+                    <p className="text-sm text-green-500">
+                      Mensagem enviada com sucesso!
+                    </p>
+                  )}
+                  {status === "error" && (
+                    <p className="text-sm text-red-500">{errorMsg}</p>
+                  )}
+
+                  <MuiButton
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2"
+                    disabled={isLoading}
+                    startIcon={
+                      isLoading ? (
+                        <CircularProgress size={16} color="inherit" />
+                      ) : (
+                        <Send sx={{ fontSize: 16 }} />
+                      )
+                    }
                     sx={{
+                      borderRadius: 2,
+                      textTransform: "none",
                       backgroundColor: "var(--logos-next-green)",
                       color: "#ffffff",
-                      "&:hover": { backgroundColor: "rgba(33,208,178,0.9)" },
+                      "&:hover": { backgroundColor: "rgba(33,208,178,0.85)" },
+                      "&.Mui-disabled": { opacity: 0.6, color: "#ffffff" },
                     }}
                   >
-                    <SendIcon sx={{ fontSize: 16, color: "#ffffff" }} />
-                    <span>Enviar Mensagem</span>
-                  </Button>
+                    {isLoading ? "Enviando..." : "Enviar Mensagem"}
+                  </MuiButton>
                 </div>
               </form>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>
