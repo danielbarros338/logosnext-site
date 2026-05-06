@@ -200,6 +200,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
+
+        {/* Google Ads */}
+        <Script
+          id="google-ads"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18144251664"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-ads-config"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18144251664');
+            `,
+          }}
+        />
       </head>
       <body className="antialiased">{children}</body>
     </html>
