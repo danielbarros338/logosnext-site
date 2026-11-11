@@ -1,204 +1,137 @@
 // app/layout.tsx
+import { CONTACT, HOME } from "@/lib/content";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Inter, JetBrains_Mono, Sora } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["600", "700"],
   display: "swap",
-  adjustFontFallback: true,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
-  adjustFontFallback: true,
 });
 
-// Poppins substitui o @import do Google Fonts no CSS
-const poppins = Poppins({
-  variable: "--font-poppins",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["100","200","300","400","500","600","700","800","900"],
+  weight: ["500"],
   display: "swap",
-  adjustFontFallback: true,
 });
+
+const BASE_URL = "https://logosnext.com.br";
+const OG_IMAGE = `${BASE_URL}/imgs/og-logo-next.webp`;
 
 export const metadata: Metadata = {
-  title: "Logos Next | Transformando sonhos em realidade",
-  description:
-    "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
-  alternates: { canonical: "https://logosnext.com.br" },
+  metadataBase: new URL(BASE_URL),
+  title: HOME.meta.title,
+  description: HOME.meta.description,
+  alternates: { canonical: BASE_URL },
   robots: { index: true, follow: true },
   publisher: "Logos Next",
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://logosnext.com.br",
+    url: BASE_URL,
     siteName: "Logos Next",
-    title: "Logos Next | Transformando sonhos em realidade",
-    description:
-      "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
-    images: [
-      {
-        url: "https://logosnext.com.br/imgs/og-logo-next.webp",
-        width: 1200,
-        height: 630,
-        alt: "Logos Next - Consultoria de TI",
-        type: "image/jpeg",
-      }
-    ],
+    title: HOME.meta.title,
+    description: HOME.meta.description,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Logos Next — Engenharia de automação e IA" }],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@logos_next",
-    title: "Logos Next | Transformando sonhos em realidade",
-    description:
-      "Consultoria de TI especializada em transformação digital, desenvolvimento de software, infraestrutura e segurança. Oferecemos soluções sob medida, suporte contínuo e parceria estratégica para acelerar seu negócio com tecnologia confiável.",
-    images: [
-      "https://logosnext.com.br/imgs/og-logo-next.webp"
-    ],
+    title: HOME.meta.title,
+    description: HOME.meta.description,
+    images: [OG_IMAGE],
   },
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${BASE_URL}#organization`,
+      name: "Logos Next",
+      url: BASE_URL,
+      logo: OG_IMAGE,
+      description:
+        "Engenharia de automação e IA para pequenas e médias empresas: automação de processos, integração de sistemas e IA aplicada, sem trocar o que já funciona.",
+      sameAs: [CONTACT.linkedin, CONTACT.instagram],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+55-21-97586-1809",
+          email: CONTACT.email,
+          contactType: "sales",
+          areaServed: "BR",
+          availableLanguage: ["Portuguese"],
+        },
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${BASE_URL}#website`,
+      url: BASE_URL,
+      name: "Logos Next",
+      publisher: { "@id": `${BASE_URL}#organization` },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "O que a Logos Next faz?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "A Logos Next é uma empresa de engenharia de automação e IA. Automatizamos tarefas repetitivas e integramos os sistemas, o WhatsApp e as planilhas que a empresa já usa.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Quais setores a Logos Next atende?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Atendemos principalmente corretoras de seguros, escritórios de contabilidade e imobiliárias, além de outras pequenas e médias empresas com operação repetitiva.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Como funciona a contratação?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Em três etapas: diagnóstico gratuito, projeto com escopo e preço combinados desde o início (ou uma prova de conceito para começar pequeno) e um plano mensal de operação e evolução.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Atendem empresas em todo o Brasil?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sim. O atendimento é remoto, para empresas de todo o Brasil.",
+          },
+        },
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
-    >
+    <html lang="pt-BR" className={`${sora.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="pt_BR" />
-        <meta property="og:url" content="https://logosnext.com.br/" />
-        <meta
-          property="og:title"
-          content="Logos Next | Transformando sonhos em realidade"
-        />
-        <meta
-          property="og:description"
-          content="Consultoria de TI especializada em transformação digital, automação inteligente e desenvolvimento sob medida."
-        />
-        <meta
-          property="og:image"
-          content="https://logosnext.com.br/imgs/og-logo-next.webp"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:site_name" content="Logos Next" />
-
-        {/* ✅ Meta Twitter (usado por X e fallback para WhatsApp em alguns casos) */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Logos Next | Transformando sonhos em realidade"
-        />
-        <meta
-          name="twitter:description"
-          content="Consultoria de TI especializada em automação inteligente e transformação digital."
-        />
-        <meta
-          name="twitter:image"
-          content="https://logosnext.com.br/imgs/og-logo-next.webp"
-        />
-
-        <Script
-          id="basic-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              url: "https://seudominio.com",
-              logo: "https://seudominio.com/favicon.png",
-            }),
-          }}
-        />
-
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <Script
           id="logosnext-schema"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "Organization",
-                  "@id": "https://logosnext.com.br#organization",
-                  name: "Logos Next",
-                  url: "https://logosnext.com.br",
-                  logo: "https://logosnext.com.br/imgs/og-logo-next.webp",
-                  description:
-                    "Consultoria de TI especializada em transformação digital, automação inteligente, desenvolvimento de software e infraestrutura.",
-                  sameAs: [
-                    "https://www.linkedin.com/company/logosnext/",
-                    "https://www.instagram.com/logosnext/",
-                    "https://x.com/logosnext"
-                  ],
-                  contactPoint: [
-                    {
-                      "@type": "ContactPoint",
-                      telephone: "+55-11-99999-9999",
-                      contactType: "Atendimento ao cliente",
-                      areaServed: "BR",
-                      availableLanguage: ["Portuguese", "English"],
-                    },
-                  ],
-                  founder: {
-                    "@type": "Person",
-                    name: "Daniel",
-                    jobTitle: "Desenvolvedor e fundador da Logos Next",
-                  },
-                },
-                {
-                  "@type": "WebSite",
-                  "@id": "https://logosnext.com.br#website",
-                  url: "https://logosnext.com.br",
-                  name: "Logos Next",
-                  publisher: { "@id": "https://logosnext.com.br#organization" },
-                  potentialAction: {
-                    "@type": "SearchAction",
-                    target:
-                      "https://logosnext.com.br/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string",
-                  },
-                },
-                {
-                  "@type": "FAQPage",
-                  mainEntity: [
-                    {
-                      "@type": "Question",
-                      name: "O que a Logos Next faz?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text: "A Logos Next é uma consultoria de TI especializada em automação inteligente, integração de sistemas e desenvolvimento sob medida para pequenas e médias empresas.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      name: "Quais serviços a Logos Next oferece?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text: "Oferecemos soluções de automação de processos, integração de sistemas, desenvolvimento de software personalizado, infraestrutura em nuvem e consultoria em tecnologia.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      name: "Atendem empresas em todo o Brasil?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text: "Sim. Atendemos empresas de todo o Brasil com soluções remotas e personalizadas, além de suporte técnico contínuo.",
-                      },
-                    },
-                  ],
-                },
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
 
         {/* Google Ads */}

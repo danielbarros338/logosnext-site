@@ -1,35 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-interface ContactPayload {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
+function sanitize(value: unknown, max = 2000): string {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, max);
 }
 
-function sanitize(value: unknown): string {
-  if (typeof value !== "string") return "";
-  return value.trim().slice(0, 2000);
+/** Escapa HTML para que dados do formulário não injetem marcação no e-mail. */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 export async function POST(request: NextRequest) {
-  let payload: unknown;
+  let payload: Record<string, unknown>;
 
   try {
-    payload = await request.json();
+    payload = (await request.json()) as Record<string, unknown>;
   } catch {
     return NextResponse.json({ error: "Requisição inválida." }, { status: 400 });
   }
 
-  const name = sanitize((payload as Record<string, unknown>).name);
-  const email = sanitize((payload as Record<string, unknown>).email);
-  const subject = sanitize((payload as Record<string, unknown>).subject);
-  const message = sanitize((payload as Record<string, unknown>).message);
+  const name = sanitize(payload.name, 200);
+  const email = sanitize(payload.email, 200);
+  const whatsapp = sanitize(payload.whatsapp, 40);
+  const company = sanitize(payload.company, 200);
+  const sector = sanitize(payload.sector, 40);
+  const message = sanitize(payload.message);
 
-  if (!name || !email || !subject || !message) {
+  if (!name || !email || !message) {
     return NextResponse.json(
-      { error: "Todos os campos são obrigatórios." },
+      { error: "Preencha nome, e-mail e mensagem." },
       { status: 422 }
     );
   }
@@ -39,49 +44,42 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "E-mail inválido." }, { status: 422 });
   }
 
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_TO } =
-    process.env;
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_TO } = process.env;
 
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
     console.error("Variáveis de ambiente SMTP não configuradas.");
-    return NextResponse.json(
-      { error: "Serviço de e-mail indisponível." },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: "Serviço de e-mail indisponível." }, { status: 503 });
   }
 
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT ?? 587),
     secure: Number(SMTP_PORT ?? 587) === 465,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
 
-  const contactPayload: ContactPayload = { name, email, subject, message };
+  const rows: [string, string][] = [
+    ["Nome", name],
+    ["E-mail", email],
+    ["WhatsApp", whatsapp || "—"],
+    ["Empresa", company || "—"],
+    ["Setor", sector || "Não informado"],
+    ["Mensagem", message],
+  ];
 
   const htmlBody = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #21d0b2;">Nova mensagem pelo site — Logos Next</h2>
+      <h2 style="color: #0163ea;">Novo pedido de diagnóstico — Logos Next</h2>
       <table style="width: 100%; border-collapse: collapse;">
-        <tr>
-          <td style="padding: 8px; font-weight: bold; width: 120px;">Nome:</td>
-          <td style="padding: 8px;">${contactPayload.name}</td>
-        </tr>
-        <tr style="background: #f5f5f5;">
-          <td style="padding: 8px; font-weight: bold;">E-mail:</td>
-          <td style="padding: 8px;">${contactPayload.email}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px; font-weight: bold;">Assunto:</td>
-          <td style="padding: 8px;">${contactPayload.subject}</td>
-        </tr>
-        <tr style="background: #f5f5f5;">
-          <td style="padding: 8px; font-weight: bold; vertical-align: top;">Mensagem:</td>
-          <td style="padding: 8px; white-space: pre-wrap;">${contactPayload.message}</td>
-        </tr>
+        ${rows
+          .map(
+            ([label, value], i) => `
+          <tr${i % 2 ? ' style="background: #f5f8fc;"' : ""}>
+            <td style="padding: 8px; font-weight: bold; width: 120px; vertical-align: top;">${label}:</td>
+            <td style="padding: 8px; white-space: pre-wrap;">${escapeHtml(value)}</td>
+          </tr>`
+          )
+          .join("")}
       </table>
     </div>
   `;
@@ -90,8 +88,8 @@ export async function POST(request: NextRequest) {
     await transporter.sendMail({
       from: SMTP_FROM ?? SMTP_USER,
       to: CONTACT_TO ?? "comercial@logosnext.com.br",
-      replyTo: contactPayload.email,
-      subject: `[Site] ${contactPayload.subject}`,
+      replyTo: email,
+      subject: `[Site] Diagnóstico — ${sector || "Setor não informado"} — ${name}`,
       html: htmlBody,
     });
 
