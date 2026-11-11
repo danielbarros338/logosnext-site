@@ -1,39 +1,22 @@
 // app/sitemap.ts
-import { MetadataRoute } from 'next'
+import { SECTOR_PAGES } from "@/lib/content";
+import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://logosnext.com.br'
+  const baseUrl = "https://logosnext.com.br";
 
   return [
     {
       url: `${baseUrl}/`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 1.0,
     },
-    {
-      url: `${baseUrl}/sobre`,
+    ...Object.keys(SECTOR_PAGES).map((slug) => ({
+      url: `${baseUrl}/${slug}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/servicos`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "monthly" as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/contato`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-  ]
+    })),
+  ];
 }
